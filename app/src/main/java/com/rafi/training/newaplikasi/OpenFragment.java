@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class OpenFragment extends AppCompatActivity {
 
@@ -32,6 +33,8 @@ public class OpenFragment extends AppCompatActivity {
         //buat objeck fragment manager
         FragmentTransaction ft = rafimanager.beginTransaction();
         //tambahkan objeck simpleFragment (object) ke Frame
+        ft.add(R.id.frame_fragmentsone,simpleFragmentSmall);
+        ft.hide(simpleFragmentSmall);
         ft.add(R.id.frame_fragmentsone,simpleFragment);
         //kemudian commit
         ft.commit();
@@ -40,7 +43,14 @@ public class OpenFragment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frame_fragmentsone,simpleFragmentSmall);
+                if (simpleFragmentSmall.isAdded()){
+                    ft.show(simpleFragmentSmall);
+                    ft.remove(simpleFragment);
+                    Toast.makeText(getApplicationContext(),"Fragment sudah ditambahkan sebelumnya.",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    ft.replace(R.id.frame_fragmentsone,simpleFragmentSmall);
+                }
                 ft.addToBackStack("Simple Fragment !");
                 ft.commit();
 
